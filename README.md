@@ -1,6 +1,8 @@
 <h1># Lunite</h1>
 <h2>A life support reporter that reports on key life support things, like oxygen, water, and food. It tells how long it can sustain the mission with the amount of each that you provide. It calculates water, oxygen, energy use & return, and food.</h2>
 
+<h2>Demo:</h2>
+https://vrramroop.github.io/Lunite/
 
 <h3>Overview: By inputting the present supply levels and use rates, a time estimation of how long each resource will last will be given. For the weakest (least) resource, there is a live counter to show how long you have.</h3>
 
