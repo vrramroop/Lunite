@@ -11,6 +11,7 @@ Information: To ensure the code works properly, please ensure that you input the
   3. Oxygen (Kg): O2 reserves
   4. Energy (kWh): Current use / gain (solar panels etc)
   5. Food (KG): Dehydrated sustenance
+<strong>WRITE NUMBERS ONLY</strong>
 
 
 Notes:
