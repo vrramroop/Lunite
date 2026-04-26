@@ -145,7 +145,7 @@
 
 					const waterdaysleft=(wateramount/(peopleamount*waterneed)).toFixed(0).padStart(2,'0');
 					const o2daysleft=(oxygenamount/(peopleamount*oxyneed)).toFixed(0).padStart(2,'0');
-					const energydaysleft = (energyreturnamount >= energyuseamount) ? Infinity : (energyreturnamount / (peopleamount * energyneed)).toFixed(0);
+					const energydaysleft = (energyreturnamount >= energyuseamount) ? Infinity : (energyreturnamount / (peopleamount * (energyuseamount - energyreturnamount))).toFixed(0);
 					const fooddaysleft=(foodamount/(peopleamount*foodneed)).toFixed(0).padStart(2,'0');
 
 					const watertimeleft = waterdaysleft;
