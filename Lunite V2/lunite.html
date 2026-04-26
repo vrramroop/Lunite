@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title> Mission Clock & Task Timer </title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" type="image/png" href="images/favicon.png" sizes="192x192" />
+	<style>
+		*{
+			margin: 0;
+			font-family: Helvetica;
+			color: white;
+			text-align: center;
+		}
+		body{
+			background: url("images/background2.png") no-repeat center center fixed;
+			background-size: cover;
+		}
+		#everything{
+			background: linear-gradient(to bottom right, #85858515, #42424215, #14141415, #38383815 );
+            backdrop-filter: blur(3px);
+            -webkit-backdrop-filter: blur(3px);
+            border: 1px solid #ffffff20;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px 0 #ffffff30;
+            padding: 20px;
+            margin: 20px;
+		}
+		.largetextclass {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+            letter-spacing: 1px;
+			color: white;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-size: 0.9em;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: white;
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            margin-top: 25px;
+            background: #353535;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #777777;
+            box-shadow: 0 0 15px rgba(48, 48, 48, 0.5);
+        }
+
+        #estimates {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        #estimates p {
+            margin-bottom: 8px;
+            font-size: 20pt;;
+        }
+
+        #leasttimeleftinnerp {
+            margin-top: 15px;
+            color: #00ff41; /* Neon green for the timer */
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(0, 255, 65, 0.3);
+        }
+
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <main>
+        <div id="everything">
+			<div class="largetextclass">
+				Lunite Life Support Predictions 
+			</div>
+
+			<label>Number of Colonists</label>
+			<input type="number" id="colonistinput" value="2" min="1">
+
+			<label>H<sub>2</sub>O in Liters</label>
+			<input type="number" id="waterinput" value="1" min="1">
+
+			<label>O<sub>2</sub> in KG</label>
+			<input type="number" id="oxygeninput" value="1" min="1">
+
+			<label>Energy Need in kWh</label>
+			<input type="number" id="energyuseinput" value="1" min="1" placeholder="Energy Use">
+			
+			<label>Energy Return in kWh</label>
+			<input type="number" id="energyreturninput" value="1" min="1" placeholder="Energy Return">
+
+			<label>Food in KG</label>
+			<input type="number" id="foodinput" value="1" min="1">
+
+			<button id="calculatethestuff">Calculate Estimates </button>
+			<div id="estimates" class="hidden">
+				<p id="waterestimates"></p>
+				<p id="o2estimates"></p>
+				<p id="energyestimates"></p>
+				<p id="foodestimates"></p>
+				<div id="leasttimeleft"><p id="leasttimeleftinnerp"></p></div>
+			</div>
+			<script>
+				let countdown;
+				function calculateEstimates() {
+					const peopleamount=document.getElementById("colonistinput").value;
+					const wateramount=document.getElementById("waterinput").value;
+					const oxygenamount=document.getElementById("oxygeninput").value;
+					const energyuseamount=document.getElementById("energyuseinput").value;
+					const energyreturnamount=document.getElementById("energyreturninput").value;
+					const foodamount=document.getElementById("foodinput").value;
+
+
+					//water is defined after food, read the lines to find why
+					const oxyneed = 0.84
+					const energyneed = Math.abs(energyuseamount-energyreturnamount).toFixed(0)
+					const foodneed = 1
+					const waterforfoodneed = 2 //generous, in Liters
+					const waterneed = 5 + waterforfoodneed //this is for the total amount of water, which includes the drinking/hygiene water and then the water needed to consume food, as its probably dry on the moon for easy packing.
+
+					const waterdaysleft=(wateramount/(peopleamount*waterneed)).toFixed(0).padStart(2,'0');
+					const o2daysleft=(oxygenamount/(peopleamount*oxyneed)).toFixed(0).padStart(2,'0');
+					const energydaysleft=(energyreturnamount/(peopleamount*energyneed)).toFixed(0).padStart(2,'0');
+					const fooddaysleft=(foodamount/(peopleamount*foodneed)).toFixed(0).padStart(2,'0');
+
+					const watertimeleft = waterdaysleft;
+					const o2timeleft = o2daysleft;
+					const energytimeleft = energydaysleft;
+					const foodtimeleft = fooddaysleft;
+					
+					const timelist = [watertimeleft, o2timeleft, energytimeleft, foodtimeleft]
+					const leasttimeleft = Math.min(...timelist);
+
+					// ^^^^^calculates the days left per life support metric^^^^^
+
+
+
+
+					document.getElementById("estimates").classList.remove("hidden");
+					document.getElementById("waterestimates").innerText=`Water Supply Will Last For: ${waterdaysleft} Days`;
+					document.getElementById("o2estimates").innerText=`Oxygen Supply Will Last For: ${o2daysleft} Days`;
+					document.getElementById("energyestimates").innerText=`Energy Supply Will Last For: ${energydaysleft} Days`;
+					document.getElementById("foodestimates").innerText=`Food Supply Will Last For: ${fooddaysleft} Days`;
+
+					//^^^^writes and displays the estimates in the document to actually see^^^
+
+
+					const timer = document.getElementById("leasttimeleftinnerp");
+					clearInterval(countdown);
+
+					let seconds = leasttimeleft * 24 * 60 * 60;
+
+					countdown = setInterval(() => {
+						if (seconds <= 0) {
+							timer.innerText = "0d 0h 0m 0s - EMERGENCY - LIFE SUPPORT SYSTEMS & SUPPLIES DEPLETED";
+							clearInterval(countdown);
+							return;
+						}
+						seconds -= 1;
+						let d = Math.floor(seconds / (24 * 60 * 60));
+						let h = Math.floor((seconds % (24 * 60 * 60)) / 3600);
+						let m = Math.floor((seconds % 3600) / 60);
+						let s = Math.floor(seconds % 60);
+
+						timer.innerText = `COUNTDOWN TO DEPLETION: ${d} days ${h} hours ${m} minutes ${s} seconds`;
+					}, 1000);
+				}
+
+				document.getElementById("calculatethestuff").onclick = calculateEstimates;
+			</script>
+		</div>
+    </main>
+</body>
+</html>
