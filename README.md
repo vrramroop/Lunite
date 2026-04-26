@@ -16,6 +16,7 @@ Information: To ensure the code works properly, please ensure that you input the
 Notes:
 Entering 0 for any resource puts the Emergency line. 
 The calculator adds 2L of water per person rate to the standard 5L rate to account for hydrating the dehydrated food, making it 7L in total.
+There are some inconsistencies with the upload times for the index.html and the v2, thats because I was rushing to ship the project to the challenger sidequest.
 
 
 Total Fixed Rates:
